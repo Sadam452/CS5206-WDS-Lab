@@ -1,0 +1,61 @@
+<?php
+include('header.php');
+if(!isset($_SESSION['email']))
+header('location:/index.php');
+
+//include db connection file
+Include ("./php/db_connection.php");
+$mail = $_SESSION['email'];
+//$result = $connect->query("select * from users");
+$result = $connect->query("SELECT * FROM users WHERE email='$mail'");
+?>
+<div id="main-div">
+<h2>User Profile</h2>
+<?php
+if($result->num_rows > 0){
+$row = $result->fetch_assoc();
+?>
+<form class="row g-3">
+  <div class="col-12">
+    <label for="fname" class="form-label">Full name</label>
+    <input type="text" class="form-control" id="fname" name="fname" value="<?php echo $row['name']; ?>" disabled>
+  </div>
+  <div class="col-md-6">
+    <label for="email" class="form-label">Email</label>
+    <input type="email" class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>" disabled>
+  </div>
+  <div class="col-md-6">
+    <label for="password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password" name="password" value="<?php echo $row['email']; ?>" disabled>
+  </div>
+  <div class="col-12">
+    <label for="address" class="form-label">Address</label>
+    <input type="text" class="form-control" id="address" name="address" value="<?php echo $row['address']; ?>" disabled>
+  </div>
+  <div class="col-md-6">
+    <label for="city" class="form-label">City</label>
+    <input type="text" class="form-control" id="city" name="city" value="<?php echo $row['city']; ?>" disabled>
+  </div>
+  <div class="col-md-4">
+    <label for="state" class="form-label">State</label>
+    <select id="state" name="state" class="form-select"disabled>
+      <option selected value=""><?php echo $row['state']; ?></option>
+     </select>
+  </div>
+  <div class="col-md-2">
+    <label for="zip" class="form-label">Zip</label>
+    <input type="text" class="form-control" id="zip" name="zip" value="<?php echo $row['zip']; ?>" disabled>
+  </div>
+</form>
+<?php
+}
+else{?>
+<div class="alert alert-secondary" role="alert">
+Unable to display the profile details.
+ </div>
+<?php
+}?>
+</div>
+<?php
+include('footer.php');
+?>
